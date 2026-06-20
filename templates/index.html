@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EndoVision AI</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h1>🧠 EndoVision-AI</h1>
+<p>Upload Medical Image & Enter Symptoms</p>
+
+<form action="/predict" method="post" enctype="multipart/form-data">
+    
+    <input type="file" name="image" required><br><br>
+    
+    <textarea name="symptoms" rows="4" cols="40"
+        placeholder="Enter symptoms (e.g., pelvic pain, cramps)"></textarea><br><br>
+    
+    <button type="submit">Predict</button>
+
+</form>
+
+</body>
+</html>
