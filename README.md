@@ -104,9 +104,9 @@ python app.py
 Output 1 | Output 2 | Output 3 | Output 4 | Output 5 | Output 6 | Output 7
 
 ## 👩‍💻 Team
-- GEDIPUDI DARSHANI - Frontend & AI
-- MAHASRI P - Backend
-- OVIYA N - Security
+- KIRISHIPATHI - Frontend & AI
+- KIRISHIPATHI - backend
+- KIRISHIPATHI - Security
 
 ## 🧾 Conclusion
 NEXA_HEALTH_AI demonstrates how multimodal AI can significantly improve early detection of endometriosis by integrating both medical imaging and clinical symptoms into a unified system.
