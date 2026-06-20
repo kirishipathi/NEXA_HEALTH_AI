@@ -1,123 +1,125 @@
-# 🧠 NEXA_HEALTH_AI
+🧬 EndoNexa AI
 
-### AI-Powered Multimodal Detection of Endometriosis
+🩺 Multimodal AI System for Endometriosis Detection
 
----
 
-## 📌 Overview
-NEXA_HEALTH_AI is a HealthTech solution that uses multimodal AI to detect endometriosis by combining:
+📌 Overview
 
-🩺 Medical Imaging (MRI / Ultrasound)
-🧾 Clinical Symptoms (Text Input)
+EndoNexa AI is a healthtech application that assists in the early detection of endometriosis by combining medical imaging analysis with clinical symptom evaluation. Instead of relying on a single data source, the system fuses image-based and text-based signals to produce a more informed prediction with an associated confidence score.
 
-It addresses delayed diagnosis by integrating both data sources into a single AI-powered system.
-This system ensures reliable AI predictions by validating medical inputs before analysis.
+Endometriosis is a condition that commonly takes years to diagnose due to fragmented evaluation of scans and patient-reported symptoms. EndoNexa AI addresses that gap by processing both inputs together through a single pipeline.
 
-## 🎥 Demo & Presentation
-🎬 Demo Video	📊 Presentation
-▶ Watch Demo	📂 View PPT
 
-## 🚨 Problem Statement
-Endometriosis affects ~10% of women globally and often takes 7–10 years to diagnose due to fragmented analysis of imaging and symptoms.
+✨ Key Features
 
-## 💡 Proposed Solution
-We built an AI system that:
-- Accepts medical images + symptom input
-- Uses multimodal fusion (Image + Text)
-- Predicts disease likelihood with confidence score
 
-## ✨ Key Features
-🔗 Multimodal AI (Image + Text)
-⚡ Real-time Prediction
-📊 Confidence Score Output
-🧠 Explainability (Heatmap simulation)
-🛡️ Input Validation (Rejects QR / invalid images)
+🔗 Multimodal Input — accepts both a medical image (MRI/Ultrasound) and a symptom description in the same request
+🛡️ Image Validation Layer — automatically rejects invalid uploads such as QR codes, selfies, or low-quality/blank images before they reach the prediction stage
+⚖️ Weighted Fusion Logic — combines image-derived and text-derived scores into a single, interpretable confidence output
+🖥️ Lightweight Web Interface — simple upload form and result view, no client-side dependencies
+⚡ Fast, Local Inference — no external API calls; runs entirely on the Flask backend
 
-## 🧱 System Architecture
-Patient Input (Image + Symptoms)
 
-│
 
-▼
+🧱 System Architecture
 
-Preprocessing Layer
+                ┌──────────────────────────┐
+                │ 🧍 Patient Input Layer    │
+                │  (Image + Symptom Text)   │
+                └─────────────┬──────────────┘
+                              │
+                              ▼
+                ┌──────────────────────────┐
+                │ 🛡️ Image Validation       │
+                │  (OpenCV — variance &     │
+                │   quality checks)         │
+                └─────────────┬──────────────┘
+                              │  valid image
+                              ▼
+        ┌─────────────────────────────────────────┐
+        │           ⚙️ Feature Scoring               │
+        │  ┌───────────────┐   ┌──────────────────┐ │
+        │  │ 🖼️ Image Score │   │ 📝 Symptom Keyword │ │
+        │  │ (CV-based)    │   │ Matching (NLP)     │ │
+        │  └───────┬───────┘   └─────────┬──────────┘ │
+        └──────────┼─────────────────────┼────────────┘
+                   │                     │
+                   ▼                     ▼
+              ┌─────────────────────────────┐
+              │   🔗 Multimodal Fusion        │
+              │  (Weighted Score Combination) │
+              └─────────────┬─────────────────┘
+                              │
+                              ▼
+                ┌──────────────────────────┐
+                │ 📊 Prediction Output       │
+                │  (Result + Confidence %)   │
+                └──────────────────────────┘
 
-│
+Flow:
 
-▼
 
-Feature Extraction
+🧍 The user uploads a medical image and enters their symptoms through the web interface.
+🛡️ The image is validated using pixel variance checks to filter out non-medical or low-quality uploads.
+⚙️ Two independent scores are generated — one from image analysis, one from symptom keyword matching.
+🔗 Both scores are combined using a weighted fusion formula to produce a final prediction and confidence percentage.
+📊 The result is rendered back to the user along with the uploaded image.
 
-(CNN for Image + NLP for Text)
 
-│
 
-▼
+⚙️ Tech Stack
 
-Multimodal Fusion
+LayerTechnology🎨 FrontendHTML, CSS🐍 BackendPython (Flask)🖼️ Image ProcessingOpenCV, NumPy📝 Text AnalysisRule-based keyword scoring🔗 Fusion LogicWeighted score combination
 
-│
 
-▼
+📡 API Reference
 
-Prediction Output (with Confidence)
+Endpoint: POST /predict
 
-## ⚙️ Tech Stack
-**Frontend:** HTML, CSS
-**Backend:** Python (Flask)
-**AI/ML:** OpenCV (Image Processing), NumPy, Rule-based Text Analysis, Multimodal Fusion Logic
+Request:
 
-## 🔐 Input Validation
-To ensure reliable predictions, the system:
-✔ Rejects QR codes, selfies, random images
-✔ Validates image resolution & pixel variance
-✔ Prevents misleading AI outputs
+FieldTypeDescriptionimagefileMedical scan (MRI/Ultrasound)symptomstextPatient-reported symptoms
 
-## 🚀 How to Run
-### Backend
-pip install -r requirements.txt
+Response:
 
-python app.py
-
-## 📡 API Endpoint
-**POST /predict**
-
-**Input:**
-- image (file)
-- symptoms (text)
-
-**Output:**
-```json
-{
+json{
   "status": "success",
   "message": "Endometriosis Detected",
   "confidence": 82.5
 }
-```
 
-## 🌍 Impact
-⏱️ Reduces diagnosis delay
-🏥 Assists doctors in early detection
-🌐 Improves healthcare accessibility
 
-## 📸 Output Screens
-Output 1 | Output 2 | Output 3 | Output 4 | Output 5 | Output 6 | Output 7
+🚀 Getting Started
 
-## 👩‍💻 Team
-- KIRISHIPATHI - Frontend & AI
-- KIRISHIPATHI - backend
-- KIRISHIPATHI - Security
+bashpip install -r requirements.txt
+python app.py
 
-## 🧾 Conclusion
-NEXA_HEALTH_AI demonstrates how multimodal AI can significantly improve early detection of endometriosis by integrating both medical imaging and clinical symptoms into a unified system.
+The application will be available at http://localhost:5000 🌐
 
-By introducing a robust input validation layer, the system avoids misleading predictions from irrelevant inputs such as QR codes or random images.
 
-**Key Takeaways:**
-- Combining multiple data sources improves accuracy
-- Validation is critical in healthcare AI
-- Real-world scalable AI systems are achievable
+🔐 Input Validation
 
-👉 NEXA_HEALTH_AI moves towards faster, safer, and more accessible diagnosis in modern healthcare.
+To prevent unreliable predictions, every uploaded image passes through a validation check that:
+
+
+🚫 Rejects QR codes and visually flat/low-variance images
+🚫 Filters out unreadable or corrupted files
+✅ Ensures only genuine scan-like images proceed to the prediction stage
+
+
+
+🌍 Impact
+
+
+⏱️ Reduces delay in identifying potential endometriosis cases
+🏥 Supports clinicians with an additional data-driven reference point
+🌐 Demonstrates how multimodal fusion can improve reliability over single-source diagnostics in healthcare AI
+
+
+
+📄 License
+
+This project is licensed under the MIT License.
+
 
 ⭐ Star this repository if you found it useful!
