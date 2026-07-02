@@ -1,19 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prediction Result</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+    <div class="page-shell result-shell">
+        <header class="result-hero">
+            <span class="eyebrow">Case Summary</span>
+            <h1>Insight is delivered.</h1>
+            <p>Present results with confidence, clarity, and a polished experience.</p>
+        </header>
 
-<h1>🧾 Result</h1>
-
-<h2>{{ result }}</h2>
-<p><strong>Confidence:</strong> {{ confidence }}%</p>
-
-<img src="{{ image }}" width="300"><br><br>
-
-<a href="/">🔙 Try Another</a>
-
+        <main class="result-panel result-grid">
+            <section class="result-summary">
+                <div class="status-chip">Analysis complete</div>
+                <div class="result-block">
+                    <h2 class="result-heading">Prediction</h2>
+                    <p class="result-value">{{ result }}</p>
+                </div>
+                <div class="result-block accent-block">
+                    <h2 class="result-heading">Confidence</h2>
+                    <p class="result-value">{{ confidence }}%</p>
+                </div>
+                <p class="result-copy">This prediction is based on the uploaded image and symptoms. Use the returned confidence score to highlight reliability.</p>
+                <a href="/" class="secondary-btn">Evaluate another case</a>
+            </section>
+            <section class="result-preview">
+                <div class="preview-label">Uploaded image</div>
+                <div class="image-frame">
+                    <img src="{{ image }}" alt="Uploaded case image">
+                </div>
+                <div class="visual-footer">
+                    <span>Visual evidence</span>
+                    <strong>High fidelity preview</strong>
+                </div>
+            </section>
+        </main>
+    </div>
 </body>
 </html>

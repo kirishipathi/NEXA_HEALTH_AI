@@ -1,24 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EndoVision AI</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+    <div class="page-shell">
+        <div class="hero-frame">
+            <div class="hero-badge">EndoVision AI</div>
+            <div class="hero-panel">
+                <div class="hero-copy">
+                    <p class="eyebrow">Next-gen medical decision support</p>
+                    <h1>See the future of diagnostics in a beautiful interface.</h1>
+                    <p>Upload an image, share symptoms, and receive a smart, clinical-style prediction instantly.</p>
+                    <div class="hero-pill-row">
+                        <span class="hero-pill">Fast upload</span>
+                        <span class="hero-pill">Sleek clinician view</span>
+                        <span class="hero-pill">Clear confidence</span>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="visual-chip">
+                        <span>Active case</span>
+                        <strong>Ready to evaluate</strong>
+                    </div>
+                    <div class="visual-card">
+                        <p>Intelligent model insights layered with modern UX.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<h1>🧠 EndoVision-AI</h1>
-<p>Upload Medical Image & Enter Symptoms</p>
+        <main class="content-grid">
+            <section class="panel form-panel">
+                <div class="panel-header">
+                    <h2>Case submission</h2>
+                    <p>Upload your medical image and add the patient symptoms before prediction.</p>
+                </div>
+                <form action="/predict" method="post" enctype="multipart/form-data" class="styled-form">
+                    <label class="field-label" for="image">Medical image</label>
+                    <div class="file-upload">
+                        <input type="file" id="image" name="image" required class="file-input">
+                        <span class="file-note">Supports common medical image formats.</span>
+                    </div>
 
-<form action="/predict" method="post" enctype="multipart/form-data">
-    
-    <input type="file" name="image" required><br><br>
-    
-    <textarea name="symptoms" rows="4" cols="40"
-        placeholder="Enter symptoms (e.g., pelvic pain, cramps)"></textarea><br><br>
-    
-    <button type="submit">Predict</button>
+                    <label class="field-label" for="symptoms">Symptoms</label>
+                    <textarea id="symptoms" name="symptoms" rows="5" placeholder="Enter symptoms (e.g., pelvic pain, cramps)"></textarea>
 
-</form>
+                    <button type="submit" class="primary-btn">Predict now</button>
+                </form>
+            </section>
 
+            <section class="panel info-panel">
+                <div class="panel-header">
+                    <h2>Features to impress</h2>
+                </div>
+                <div class="info-list modern-grid">
+                    <div class="info-item">
+                        <strong>Immersive presentation</strong>
+                        <p>A premier, polished interface designed for demo-ready presentations.</p>
+                    </div>
+                    <div class="info-item">
+                        <strong>Clinical clarity</strong>
+                        <p>Readable results with contrast-driven emphasis for fast review.</p>
+                    </div>
+                    <div class="info-item">
+                        <strong>Modern polish</strong>
+                        <p>Gradient glass cards, smooth hover states, and elegant spacing.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
 </body>
 </html>
