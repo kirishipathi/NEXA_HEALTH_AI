@@ -1,0 +1,67 @@
+{
+  "data_scope": "PCOS pelvic ultrasound proxy dataset mapped to endometriosis-suspected/normal labels for screening support only.",
+  "split_used": "test_only",
+  "image_branch": {
+    "accuracy": 0.8793103448275862,
+    "precision": 1.0,
+    "recall": 0.7033898305084746,
+    "f1": 0.8258706467661692,
+    "roc_auc": 0.9888648009459992,
+    "confusion_matrix": [
+      [
+        172,
+        0
+      ],
+      [
+        35,
+        83
+      ]
+    ],
+    "threshold": 0.5
+  },
+  "symptom_branch": {
+    "accuracy": 0.803448275862069,
+    "precision": 0.7606837606837606,
+    "recall": 0.7542372881355932,
+    "f1": 0.7574468085106383,
+    "roc_auc": 0.8732262514781237,
+    "confusion_matrix": [
+      [
+        144,
+        28
+      ],
+      [
+        29,
+        89
+      ]
+    ],
+    "threshold": 0.5
+  },
+  "fusion_branch": {
+    "accuracy": 0.8896551724137931,
+    "precision": 0.8981481481481481,
+    "recall": 0.8220338983050848,
+    "f1": 0.8584070796460177,
+    "roc_auc": 0.9693535672053606,
+    "confusion_matrix": [
+      [
+        161,
+        11
+      ],
+      [
+        21,
+        97
+      ]
+    ],
+    "threshold": 0.5
+  },
+  "warning": null,
+  "artifact_paths": {
+    "image_confusion_matrix": "C:\\Users\\KIRISHIPATHI\\OneDrive\\Desktop\\NEXA_HEALTH_AI\\results\\image_confusion_matrix.png",
+    "image_roc_curve": "C:\\Users\\KIRISHIPATHI\\OneDrive\\Desktop\\NEXA_HEALTH_AI\\results\\image_roc_curve.png",
+    "symptom_confusion_matrix": "C:\\Users\\KIRISHIPATHI\\OneDrive\\Desktop\\NEXA_HEALTH_AI\\results\\symptom_confusion_matrix.png",
+    "symptom_roc_curve": "C:\\Users\\KIRISHIPATHI\\OneDrive\\Desktop\\NEXA_HEALTH_AI\\results\\symptom_roc_curve.png",
+    "fusion_confusion_matrix": "C:\\Users\\KIRISHIPATHI\\OneDrive\\Desktop\\NEXA_HEALTH_AI\\results\\fusion_confusion_matrix.png",
+    "fusion_roc_curve": "C:\\Users\\KIRISHIPATHI\\OneDrive\\Desktop\\NEXA_HEALTH_AI\\results\\fusion_roc_curve.png"
+  }
+}

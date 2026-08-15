@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+data/raw/
+data/processed/
+# Trained model artifacts are kept in-repo because each .keras file is under 100 MB.
+# If a future export exceeds GitHub's repo size guidance, add *.keras here and document the download location in README.md.

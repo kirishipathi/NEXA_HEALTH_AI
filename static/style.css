@@ -359,9 +359,19 @@ textarea:focus {
     line-height: 1.8;
 }
 
+.note-copy {
+    margin-top: -10px;
+}
+
 .result-preview {
     display: grid;
     gap: 18px;
+}
+
+.preview-pair {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: 1fr 1fr;
 }
 
 .preview-label {
@@ -380,6 +390,10 @@ textarea:focus {
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.24);
     background: rgba(255, 255, 255, 0.02);
+}
+
+.heatmap-frame {
+    border: 1px solid rgba(47, 215, 255, 0.25);
 }
 
 .image-frame img {

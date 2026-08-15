@@ -1,0 +1,34 @@
+STATUS 200
+HAS_RESULT True
+HAS_CONFIDENCE True
+HAS_GRADCAM_NOTICE True
+HTML_SNIPPET_START
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="page-shell result-shell">
+        <header class="result-hero">
+            <span class="eyebrow">Case Summary</span>
+            <h1>Insight is delivered.</h1>
+            <p>Present results with confidence, clarity, and a polished experience.</p>
+        </header>
+
+        <main class="result-panel result-grid">
+            <section class="result-summary">
+                <div class="status-chip">Analysis complete</div>
+                <div class="result-block">
+                    <h2 class="result-heading">Prediction</h2>
+                    <p class="result-value">Normal</p>
+                </div>
+                <div class="result-block accent-block">
+                    <h2 class="result-heading">Confidence</h2>
+                    <p class="result-value">4.48%</p>
+                </div>
+                <p class="result-copy">This prediction is based on the uploaded image and symptoms. Use the returned confidence scor
+HTML_SNIPPET_END

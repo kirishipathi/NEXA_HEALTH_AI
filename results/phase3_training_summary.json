@@ -1,0 +1,29 @@
+{
+  "data_scope": "PCOS pelvic ultrasound proxy dataset mapped to endometriosis-suspected/normal labels for screening support only.",
+  "image_branch": {
+    "final_train_accuracy": 0.789747416973114,
+    "final_val_accuracy": 0.75,
+    "final_train_loss": 0.4620577096939087,
+    "final_val_loss": 0.47925424575805664
+  },
+  "symptom_branch": {
+    "train_accuracy": 1.0,
+    "val_accuracy": 1.0,
+    "test_accuracy": 1.0,
+    "train_count": 1346,
+    "val_count": 288,
+    "test_count": 290
+  },
+  "fusion_branch": {
+    "test_accuracy": 1.0,
+    "image_weight": 0.6,
+    "symptom_weight": 0.4,
+    "threshold": 0.5
+  },
+  "artifact_paths": {
+    "image_model": "C:\\Users\\KIRISHIPATHI\\OneDrive\\Desktop\\NEXA_HEALTH_AI\\model\\efficientnet_b0_model.keras",
+    "symptom_model": "C:\\Users\\KIRISHIPATHI\\OneDrive\\Desktop\\NEXA_HEALTH_AI\\model\\symptom_logistic_regression.joblib",
+    "fusion_config": "C:\\Users\\KIRISHIPATHI\\OneDrive\\Desktop\\NEXA_HEALTH_AI\\model\\fusion_config.json",
+    "training_plot": "C:\\Users\\KIRISHIPATHI\\OneDrive\\Desktop\\NEXA_HEALTH_AI\\results\\image_training_curves.png"
+  }
+}

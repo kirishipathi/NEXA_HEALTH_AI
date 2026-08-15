@@ -1,0 +1,9 @@
+{
+  "image_weight": 0.6,
+  "symptom_weight": 0.4,
+  "threshold": 0.5,
+  "fusion_output": "weighted_average",
+  "proxy_note": "This fusion is trained on the PCOS pelvic ultrasound proxy dataset and is not a verified endometriosis diagnostic model.",
+  "image_model_path": "C:\\Users\\KIRISHIPATHI\\OneDrive\\Desktop\\NEXA_HEALTH_AI\\model\\efficientnet_b0_model.keras",
+  "symptom_model_path": "C:\\Users\\KIRISHIPATHI\\OneDrive\\Desktop\\NEXA_HEALTH_AI\\model\\symptom_logistic_regression.joblib"
+}

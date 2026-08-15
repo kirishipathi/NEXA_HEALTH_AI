@@ -1,157 +1,246 @@
-<div align="center">
+# EndoNexa AI
 
-# 🧬 EndoNexa AI
+## Multimodal endometriosis screening-support system
 
-### 🩺 Multimodal AI System for Endometriosis Detection
+EndoNexa AI is a Flask-based research prototype for early endometriosis screening support. It combines a medical image pathway and a symptom-text pathway into one multimodal prediction pipeline. The objective is not to replace medical diagnosis, but to provide a transparent, explainable screening-support tool that can flag potentially suspicious cases for further clinical evaluation.
 
-**Fusing medical imaging analysis with clinical symptom evaluation to support earlier, more informed diagnosis.**
+This project is intentionally framed as a screening-support system, not a clinical diagnostic system. The underlying dataset is a proxy dataset (PCOS pelvic ultrasound proxy mapping), and the model is therefore a research prototype for academic use rather than a validated clinical-grade tool.
 
-![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-Backend-000000?style=for-the-badge&logo=flask&logoColor=white)
-![OpenCV](https://img.shields.io/badge/OpenCV-Image_Processing-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)
-![NumPy](https://img.shields.io/badge/NumPy-Computation-013243?style=for-the-badge&logo=numpy&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)
+## 1. Project overview
 
-</div>
+Endometriosis is often under-detected because symptoms are heterogeneous and imaging findings may be subtle or fragmented across clinical visits. EndoNexa AI addresses this by fusing two complementary signals:
 
-<br>
+- image-derived probability from a trained EfficientNet-B0 classifier
+- symptom-derived probability from a logistic-regression model built on structured symptom features
 
-## 📌 Overview
+The final decision uses a weighted fusion rule:
 
-**EndoNexa AI** is a healthtech application that assists in the early detection of endometriosis by combining **medical imaging analysis** with **clinical symptom evaluation**. Instead of relying on a single data source, the system fuses image-based and text-based signals to produce a more informed prediction with an associated confidence score.
+- image weight = 0.6
+- symptom weight = 0.4
 
-Endometriosis is a condition that commonly takes **years to diagnose** due to fragmented evaluation of scans and patient-reported symptoms. EndoNexa AI addresses that gap by processing both inputs together through a single pipeline.
+The model emits a binary prediction:
 
-<br>
+- Endometriosis Suspected
+- Normal
 
-## ✨ Key Features
+The app displays confidence in the predicted class, not the raw positive-class probability.
 
-| | Feature | Description |
-|---|---|---|
-| 🔗 | **Multimodal Input** | Accepts both a medical image (MRI/Ultrasound) and a symptom description in the same request |
-| 🛡️ | **Image Validation Layer** | Automatically rejects invalid uploads such as QR codes, selfies, or low-quality/blank images before they reach the prediction stage |
-| ⚖️ | **Weighted Fusion Logic** | Combines image-derived and text-derived scores into a single, interpretable confidence output |
-| 🖥️ | **Lightweight Web Interface** | Simple upload form and result view, no client-side dependencies |
-| ⚡ | **Fast, Local Inference** | No external API calls; runs entirely on the Flask backend |
+## 2. Architecture
 
-<br>
+The project pipeline is:
 
-## 🧱 System Architecture
-            ┌──────────────────────────┐
-            │  🧍 Patient Input Layer   │
-            │  (Image + Symptom Text)   │
-            └─────────────┬────────────┘
-                          │
-                          ▼
-            ┌──────────────────────────┐
-            │  🛡️ Image Validation      │
-            │  (OpenCV — variance &     │
-            │   quality checks)         │
-            └─────────────┬────────────┘
-                          │  valid image
-                          ▼
-    ┌─────────────────────────────────────────┐
-    │             ⚙️ Feature Scoring             │
-    │  ┌────────────────┐   ┌─────────────────┐│
-    │  │ 🖼️ Image Score  │   │ 📝 Symptom Keyword││
-    │  │  (CV-based)     │   │  Matching (NLP)   ││
-    │  └────────┬───────┘   └────────┬──────────┘│
-    └───────────┼────────────────────┼───────────┘
-                 │                    │
-                 ▼                    ▼
-          ┌────────────────────────────────┐
-          │      🔗 Multimodal Fusion        │
-          │   (Weighted Score Combination)   │
-          └─────────────┬───────────────────┘
-                          │
-                          ▼
-            ┌──────────────────────────┐
-            │  📊 Prediction Output      │
-            │  (Result + Confidence %)   │
-            └──────────────────────────┘
+1. User uploads an image and symptom text.
+2. Image validation rejects invalid or low-quality uploads.
+3. The image branch produces an image probability score.
+4. The symptom branch converts text into feature values and outputs a symptom probability.
+5. The weighted fusion model produces the final score.
+6. The result is rendered in the web interface.
+7. Grad-CAM is treated as optional and degrades gracefully when the exported Keras graph is incompatible with gradient tracing.
 
-**Flow:**
+### High-level flow
 
-1. 🧍 The user uploads a medical image and enters their symptoms through the web interface
-2. 🛡️ The image is validated using pixel variance checks to filter out non-medical or low-quality uploads
-3. ⚙️ Two independent scores are generated — one from image analysis, one from symptom keyword matching
-4. 🔗 Both scores are combined using a weighted fusion formula to produce a final prediction and confidence percentage
-5. 📊 The result is rendered back to the user along with the uploaded image
-
-<br>
-
-## ⚙️ Tech Stack
-
-| Layer | Technology |
-|---|---|
-| 🎨 **Frontend** | HTML, CSS |
-| 🐍 **Backend** | Python (Flask) |
-| 🖼️ **Image Processing** | OpenCV, NumPy |
-| 📝 **Text Analysis** | Rule-based keyword scoring |
-| 🔗 **Fusion Logic** | Weighted score combination |
-
-<br>
-
-## 📡 API Reference
-
-### `POST /predict`
-
-**Request**
-
-| Field | Type | Description |
-|---|---|---|
-| `image` | file | Medical scan (MRI/Ultrasound) |
-| `symptoms` | text | Patient-reported symptoms |
-
-**Response**
-
-```json
-{
-  "status": "success",
-  "message": "Endometriosis Detected",
-  "confidence": 82.5
-}
+```text
+User input (image + symptoms)
+        ↓
+Image validation
+        ↓
+Image model (EfficientNet-B0)
+        ↓
+Symptom model (Logistic Regression)
+        ↓
+Weighted fusion (0.6 image + 0.4 symptoms)
+        ↓
+Prediction + confidence in predicted class
+        ↓
+Flask result page
 ```
 
-<br>
+## 3. Data and proxy justification
 
-## 🚀 Getting Started
+The project uses a proxy dataset for a final-year academic prototype. The repository contains processed splits under `data/processed/train`, `data/processed/val`, and `data/processed/test`, and the training/evaluation pipeline is built around those partitions.
+
+This is not a real clinical endometriosis dataset. Instead, the project explicitly follows a research proxy strategy:
+
+- the data is mapped to a binary screening task
+- the project is designed to demonstrate multimodal healthcare AI architecture and evaluation pipelines
+- the final system is framed as screening support, not clinical diagnosis
+
+This framing is important for academic integrity. The prototype is valuable as a demonstration of systems design, multimodal fusion, model packaging, and web deployment, but it must not be presented as a clinically validated endometriosis detector.
+
+## 4. Training methodology
+
+### Image branch
+
+- EfficientNet-B0 backbone with ImageNet initialization
+- input image size: 224 × 224 × 3
+- binary classification head with sigmoid activation
+- trained in two stages: base freeze then fine-tuning of later layers
+- model artifact saved as `model/efficientnet_b0_model.keras`
+
+### Symptom branch
+
+- structured symptom features generated from text keywords
+- features include pain, infertility risk, cycle irregularity, pressure, bleeding, fatigue, and similar clinical descriptors
+- logistic regression model trained with class balancing
+- artifact saved as `model/symptom_logistic_regression.joblib`
+
+### Fusion logic
+
+The final score is calculated as:
+
+```python
+fused_prob = (0.6 * image_prob) + (0.4 * symptom_prob)
+```
+
+where:
+
+- `image_prob` = image model probability for the positive class
+- `symptom_prob` = symptom model probability for the positive class
+
+The decision threshold is 0.5.
+
+## 5. Phase 4 evaluation results
+
+The evaluation summary in `results/phase4_evaluation_summary.json` reports the following metrics on the test split:
+
+| Branch | Accuracy | Precision | Recall | F1-score | ROC-AUC |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Image model | 0.8793 | 1.0000 | 0.7034 | 0.8259 | 0.9889 |
+| Symptom model | 0.8034 | 0.7607 | 0.7542 | 0.7574 | 0.8732 |
+| Fusion model | 0.8897 | 0.8981 | 0.8220 | 0.8584 | 0.9694 |
+
+These values show a usable screening prototype, but they should be interpreted as a research benchmark rather than clinical performance.
+
+## 6. Confidence semantics and label fix
+
+A genuine issue was identified and fixed: the app previously displayed the raw positive-class probability as “Confidence” even when the predicted class was “Normal”. For example, a raw positive probability of 4.48% was being shown directly as the confidence score for a Normal prediction, which is misleading.
+
+The correct logic is now:
+
+```python
+if fused_prob >= 0.5:
+    label = "Endometriosis Suspected"
+    confidence = fused_prob * 100
+else:
+    label = "Normal"
+    confidence = (1.0 - fused_prob) * 100
+```
+
+This means the app reports confidence in the predicted class, which is unambiguous and correct.
+
+## Known Issues
+
+The live prediction pipeline currently shows reduced sensitivity to positive (endometriosis-suspected) cases in manual testing, despite Phase 4 offline evaluation reporting 70% recall. Root cause under investigation — suspected label-orientation mismatch between the image and symptom branches. This does not affect the validity of the reported Phase 3/4 training and evaluation metrics, which were computed correctly on the test set.
+
+## 7. Grad-CAM limitation
+
+The project includes a Grad-CAM explainability path, but it remains optional because the exported EfficientNet model sometimes forms a nested Keras graph that is not compatible with gradient tracing. The runtime error observed was:
+
+```text
+ValueError: Output with path 0 is not connected to inputs
+```
+
+This is a real limitation of the current exported model structure, not a silent failure. The app keeps working because the pipeline catches this and continues with the prediction result; the overlay simply becomes unavailable for that case.
+
+## 8. Ethical and clinical framing
+
+This project should be used as a research and educational tool, not a medical diagnosis system. It is best positioned as:
+
+- a prototype for screening support
+- a demonstration of multimodal healthcare AI
+- a final-year project for AI and full-stack application development
+- a way to explore explainability and deployment patterns in healthcare AI
+
+## 9. Setup and run instructions
+
+### Environment
+
+```bash
+python -m venv .venv
+. .venv/bin/activate   # Linux/macOS
+.venv\Scripts\activate # Windows
+```
+
+### Install dependencies
 
 ```bash
 pip install -r requirements.txt
+```
+
+### Run the web app
+
+```bash
 python app.py
 ```
 
-The application will be available at **http://localhost:5000** 🌐
+Then open:
 
-<br>
+```text
+http://127.0.0.1:5000
+```
 
-## 🔐 Input Validation
+## 10. Project structure
 
-To prevent unreliable predictions, every uploaded image passes through a validation check that:
+```text
+NEXA_HEALTH_AI/
+├── app.py
+├── LICENSE
+├── NOTES.md
+├── README.md
+├── requirements.txt
+├── http_check.py
+├── verify_live.py
+├── verify_runtime_checks.py
+├── .venv/
+├── data/
+│   ├── README.md
+│   ├── class_balance_summary.json
+│   ├── dataset_manifest.csv
+│   ├── download_pcos_dataset.py
+│   ├── prepare_pcos_proxy_dataset.py
+│   ├── raw/
+│   ├── processed/
+│   └── symptom_features/
+├── model/
+│   ├── efficientnet_b0_model.keras
+│   ├── efficientnet_b0_stage1.keras
+│   ├── efficientnet_b0_finetuned.keras
+│   ├── fusion_config.json
+│   ├── gradcam.py
+│   ├── predictor.py
+│   ├── symptom_logistic_regression.joblib
+│   ├── train_multimodal.py
+│   ├── evaluate.py
+│   └── __pycache__/
+├── results/
+│   ├── image_confusion_matrix.png
+│   ├── image_roc_curve.png
+│   ├── image_training_curves.png
+│   ├── symptom_confusion_matrix.png
+│   ├── symptom_roc_curve.png
+│   ├── fusion_confusion_matrix.png
+│   ├── fusion_roc_curve.png
+│   ├── phase3_training_summary.json
+│   └── phase4_evaluation_summary.json
+├── static/
+│   ├── style.css
+│   └── uploads/
+└── templates/
+    ├── index.html
+    └── result.html
+```
 
-- 🚫 Rejects QR codes and visually flat/low-variance images
-- 🚫 Filters out unreadable or corrupted files
-- ✅ Ensures only genuine scan-like images proceed to the prediction stage
+## 11. Limitations and future work
 
-<br>
+This prototype is intentionally limited by the dataset and explainability constraints. Recommended future work includes:
 
-## 🌍 Impact
+- replace the proxy dataset with a clinically validated endometriosis dataset
+- re-export the image model as a flat functional graph for robust Grad-CAM support
+- improve symptom feature extraction with NLP or a clinical text encoder
+- add calibration reporting for prediction confidence
+- run external validation and broader ablation studies
+- extend the app to clinician-facing dashboards and audit logs
 
-- ⏱️ **Reduces delay** in identifying potential endometriosis cases
-- 🏥 Supports clinicians with an additional **data-driven reference point**
-- 🌐 Demonstrates how **multimodal fusion** can improve reliability over single-source diagnostics in healthcare AI
+## 12. License
 
-<br>
-
-## 📜 License
-
-This project is licensed under the **MIT License**.
-
-<br>
-
-<div align="center">
-
-### ⭐ Star this repository if you found it useful!
-
-</div>
+This project is distributed under the MIT License.

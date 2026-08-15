@@ -1,0 +1,17 @@
+{
+  "train": {
+    "total": 1346,
+    "label_0": 800,
+    "label_1": 546
+  },
+  "val": {
+    "total": 288,
+    "label_0": 171,
+    "label_1": 117
+  },
+  "test": {
+    "total": 290,
+    "label_0": 172,
+    "label_1": 118
+  }
+}
